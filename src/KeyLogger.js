@@ -31,6 +31,24 @@ function SaveToFile (data) {
     });
 }
 
+function InsertType (type, message) {
+    if(message.includes("\n")){
+        let array = message.split("\n");
+        let result;
+        for (let i = 0; i < array.length; i++) {
+            let n = i + 1;
+            if(i == 0){
+            result = "[ " + GetCurrentDateTime(false) + " ] " + "[ " + type + " ] " + "(" + n + "/" + array.length + ") " + array[i];
+            }else{
+                result += "\n[ " + GetCurrentDateTime(false) + " ] " + "[ " + type + " ] " + "(" + n + "/" + array.length + ") " + array[i];
+            }
+        }
+        return result;
+    }else{
+        return "[ " + GetCurrentDateTime(false) + " ] " + "[ " + type + " ] " + message;
+    }
+}
+
 /*
 ? FgBlack = "\x1b[30m"    BgBlack = "\x1b[40m"    Reset = "\x1b[0m"
 ? FgRed = "\x1b[31m"      BgRed = "\x1b[41m"      Bright = "\x1b[1m"
@@ -45,27 +63,22 @@ function SaveToFile (data) {
 exports.CustomLog = (message, type, colorId) => {
     if( colorId == undefined )
         colorId = 0;
-    let msg = "[ " + GetCurrentDateTime(false) + " ] " + "[ " + type + " ] " + message;
-    console.log('\x1b[' + colorId + 'm%s\x1b[0m', msg);
+    console.log('\x1b[' + colorId + 'm%s\x1b[0m', InsertType(type, message));
     SaveToFile(msg);
 }
 
 exports.InfoLog = (message) => {
-    let msg = "[ " + GetCurrentDateTime(false) + " ] " + "[ INFO ] " + message;
-    console.log('\x1b[' + 34 + 'm%s\x1b[0m', message);
+    console.log('\x1b[' + 34 + 'm%s\x1b[0m', InsertType("INFO" , message));
 }
 
 exports.SuccessLog = (message) => {
-    let msg = "[ " + GetCurrentDateTime(false) + " ] " + "[ SUCCESS ] " + message;
-    console.log('\x1b[' + 32 + 'm%s\x1b[0m', message);
+    console.log('\x1b[' + 32 + 'm%s\x1b[0m', InsertType("SUCCESS" , message));
 }
 
 exports.WarningLog = (message) => {
-    let msg = "[ " + GetCurrentDateTime(false) + " ] " + "[ WARNING ] " + message;
-    console.log('\x1b[' + 33 + 'm%s\x1b[0m', message);
+    console.log('\x1b[' + 33 + 'm%s\x1b[0m', InsertType("WARNING" , message));
 }
 
 exports.ErrorLog = (message) => {
-    let msg = "[ " + GetCurrentDateTime(false) + " ] " + "[ ERROR ] " + message;
-    console.log('\x1b[' + 31 + 'm%s\x1b[0m', message);
+    console.log('\x1b[' + 31 + 'm%s\x1b[0m', InsertType("ERROR" , message));
 }
