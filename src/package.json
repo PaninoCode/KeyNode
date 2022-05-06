@@ -3,17 +3,21 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "run": "node index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alex Niccolò Ferrari (@alex65ferrari)",
   "license": "GPL-3.0",
   "description": "Simple Password Manager; Built with Node.js as my final project of the 2021/2022 school year.",
   "dependencies": {
+    "adm-zip": "^0.5.9",
+    "cli-progress": "^3.11.0",
     "dotenv": "^16.0.0",
-    "open": "^8.4.0"
+    "mongodb": "^4.5.0",
+    "open": "^8.4.0",
+    "request": "^2.88.2",
+    "request-progress": "^3.0.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alex65ferrari/KeyNode.git"

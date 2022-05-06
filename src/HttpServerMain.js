@@ -2,9 +2,36 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
+const express = require('express');
+const app = express();
+
 const OpenAndServe = require("./OpenAndServe.js");
 
 exports.StartServer = (ADMIN_PORT) => {
+
+    app.get('/*', (req, res) => {
+        res.send(getFullPage(path.join("./app", "index.html")));
+    })
+
+    const options = {
+        dotfiles: 'ignore',
+        etag: false,
+        index: false,
+        maxAge: '1ms',
+        redirect: false,
+        setHeaders (res, path, stat) {
+          res.set('x-timestamp', Date.now())
+        }
+      }
+      
+    app.use(express.static('app', options))
+      
+      
+    app.listen(ADMIN_PORT);
+
+    return true;
+
+    /*
     const requestListener = function (req, res) {
         if(req.url.startsWith("/api")){
             let apiRes = ServeApi(req);
@@ -15,6 +42,7 @@ exports.StartServer = (ADMIN_PORT) => {
             let staticRes = ServeStatic(req);
             res.writeHead(200, { 'content-type': staticRes[0] });
             res.end(staticRes[1]);
+            fs.createReadStream(path.join('./app', req.url)).pipe(res);
         }
     }
     
@@ -23,6 +51,7 @@ exports.StartServer = (ADMIN_PORT) => {
     server.listen(ADMIN_PORT);
 
     return true;
+    */
 }
 
 function ServeApi(req){
@@ -40,6 +69,8 @@ function ServeStatic(req){
         fileString[0] = "text/html";
     }else if(req.url.endsWith(".png") || req.url.endsWith(".jpg") || req.url.endsWith(".jpeg") || req.url.endsWith(".gif")){
         fileString[0] = "image/png";
+    }else if (req.url.endsWith(".svg")){
+        fileString[0] = "image/svg+xml";
     }else{
         fileString[0] = "text/html";
         return getFile(fileString, path.join('./app', req.url, "index.html"));

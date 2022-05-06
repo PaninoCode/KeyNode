@@ -16,8 +16,9 @@ require('dotenv').config();
 
 console.log("\n--------------------------------------------------\n");
 
-const AdminPanelMain = require("./AdminPanelMain.js"); // * Main script for the admin panel management.
+const HttpServerMain = require("./HttpServerMain.js"); // * Main script for the admin panel management.
 const KeyLogger = require("./KeyLogger.js"); // * Logging component. KeyNode + Logger.
+const MongodManager = require("./MongodManager.js"); // * MongoDB component.
 
 if(process.env.RANDOMIZE_USER_PORT){
     const port = Math.floor(Math.random() * (65535 - 1024)) + 1024;
@@ -26,10 +27,20 @@ if(process.env.RANDOMIZE_USER_PORT){
 }
 
 
-if (AdminPanelMain.StartServer(process.env.ADMIN_PORT)) {
-    KeyLogger.SuccessLog("Admin panel successfully started, on port: " + process.env.ADMIN_PORT);
-}else{
-    KeyLogger.ErrorLog("Admin panel failed to start");
-}
+KeyLogger.InfoLog("Searching for MongoDB...");
 
-open('http://localhost:' + process.env.ADMIN_PORT);
+MongodManager.DownloadAndExtract(process.env.MONGODB_DOWNLOAD, "mongodb.zip", function (res, err) {
+    if (res) {
+        KeyLogger.SuccessLog("MongoDB is downloaded and extracted.");
+        if (HttpServerMain.StartServer(process.env.ADMIN_PORT)) {
+            KeyLogger.SuccessLog("Admin panel successfully started, on port: " + process.env.ADMIN_PORT);
+        }else{
+            KeyLogger.ErrorLog("Admin panel failed to start");
+        }
+    
+        open('http://localhost:' + process.env.ADMIN_PORT);
+    } else {
+        KeyLogger.ErrorLog("MongoDB failed to download and extract.");
+    }
+
+});
