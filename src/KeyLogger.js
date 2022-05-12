@@ -24,12 +24,14 @@ function GetCurrentDateTime(fileNameFormat) {
     }
 }
 
+/*
 function SaveToFile (data) {
     fs.appendFile(path.join("./KeyLogger/", GetCurrentDateTime(true) + ".log"), data + "\n", (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
     });
 }
+*/
 
 function InsertType (type, message) {
     if(message.includes("\n")){
@@ -64,7 +66,6 @@ exports.CustomLog = (message, type, colorId) => {
     if( colorId == undefined )
         colorId = 0;
     console.log('\x1b[' + colorId + 'm%s\x1b[0m', InsertType(type, message));
-    SaveToFile(msg);
 }
 
 exports.InfoLog = (message) => {

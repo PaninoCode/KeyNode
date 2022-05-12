@@ -20,7 +20,7 @@ const HttpServerMain = require("./HttpServerMain.js"); // * Main script for the 
 const KeyLogger = require("./KeyLogger.js"); // * Logging component. KeyNode + Logger.
 const MongodManager = require("./MongodManager.js"); // * MongoDB component.
 
-if(process.env.RANDOMIZE_USER_PORT){
+if(process.env.RANDOMIZE_USER_PORT == "true"){
     const port = Math.floor(Math.random() * (65535 - 1024)) + 1024;
     KeyLogger.InfoLog("User port randomization is set to True. \nRandomized user port is: " + port)
     process.env.USER_PORT = port;
@@ -32,13 +32,13 @@ KeyLogger.InfoLog("Searching for MongoDB...");
 MongodManager.DownloadAndExtract(process.env.MONGODB_DOWNLOAD, "mongodb.zip", function (res, err) {
     if (res) {
         KeyLogger.SuccessLog("MongoDB is downloaded and extracted.");
-        if (HttpServerMain.StartServer(process.env.ADMIN_PORT)) {
-            KeyLogger.SuccessLog("Admin panel successfully started, on port: " + process.env.ADMIN_PORT);
+        if (HttpServerMain.StartServer(process.env.USER_PORT)) {
+            KeyLogger.SuccessLog("Server successfully started, on port: " + process.env.USER_PORT);
         }else{
             KeyLogger.ErrorLog("Admin panel failed to start");
         }
     
-        open('http://localhost:' + process.env.ADMIN_PORT);
+        open('http://localhost:' + process.env.USER_PORT);
     } else {
         KeyLogger.ErrorLog("MongoDB failed to download and extract.");
         KeuLogger.ErrorLog(err);

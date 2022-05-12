@@ -2,16 +2,13 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
 
-const OpenAndServe = require("./OpenAndServe.js");
+exports.StartServer = (USER_PORT) => {
 
-exports.StartServer = (ADMIN_PORT) => {
-
-    app.get('/*', (req, res) => {
-        res.send(getFullPage(path.join("./app", "index.html")));
-    })
+    app.use(cookieParser());
 
     const options = {
         dotfiles: 'ignore',
@@ -24,12 +21,37 @@ exports.StartServer = (ADMIN_PORT) => {
         }
       }
       
-    app.use(express.static('app', options))
+    app.use(express.static('app', options));
+
+
+    app.get('/', (req, res) => {
+        if(req.cookies["logged_in"] == "true"){
+            contextSpecificFolder = "user";
+            contextSpecificMasterPage = "user"
+        }else{
+            contextSpecificFolder = "public";
+            contextSpecificMasterPage = "no-user"
+
+        }
+
+        res.send(getFullPage(path.join("./app", contextSpecificFolder, "index.html"), contextSpecificMasterPage));
+    })
+
+    app.get('*', function(req, res){
+        res.status(404).send('Erorr 404: Page not found');
+    });
       
-      
-    app.listen(ADMIN_PORT);
+    app.listen(USER_PORT);
 
     return true;
+
+}
+
+
+function getFullPage(filePath, masterPage){
+    let content = fs.readFileSync(path.join("./app", "masterPages", masterPage + ".html")).toString().replace("<!--content-->", fs.readFileSync(filePath).toString());
+    return content;
+}
 
     /*
     const requestListener = function (req, res) {
@@ -48,12 +70,12 @@ exports.StartServer = (ADMIN_PORT) => {
     
     const server = http.createServer(requestListener);
     
-    server.listen(ADMIN_PORT);
+    server.listen(USER_PORT);
 
     return true;
     */
-}
 
+/*
 function ServeApi(req){
     return ["application/json", JSON.stringify({})]
 }
@@ -93,7 +115,4 @@ function getFile(fileString, filePath){
     return fileString;
 }
 
-function getFullPage(filePath){
-    let content = fs.readFileSync(path.join("./app", "masterPages", "no-user.html")).toString().replace("<!--content-->", fs.readFileSync(filePath).toString());
-    return content;
-}
+*/
