@@ -41,6 +41,7 @@ MongodManager.DownloadAndExtract(process.env.MONGODB_DOWNLOAD, "mongodb.zip", fu
         open('http://localhost:' + process.env.ADMIN_PORT);
     } else {
         KeyLogger.ErrorLog("MongoDB failed to download and extract.");
+        KeuLogger.ErrorLog(err);
     }
 
 });

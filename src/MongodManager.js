@@ -8,7 +8,10 @@ const cliProgress = require('cli-progress');
 
 exports.DownloadAndExtract = (downloadLink, name, func) => {
 
-    
+    if(fs.existsSync(path.join("./data/mongodb_data", name))){
+        func(true, "");
+        return;
+    };
 
     const downloadProgress = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
     console.log("\n");
@@ -22,14 +25,14 @@ exports.DownloadAndExtract = (downloadLink, name, func) => {
         func(false, err);
     })
     .on('end', function () {
-        var zip = new AdmZip(path.join("./data/mongodb", name));
-        zip.extractAllTo(path.join("./data/mongodb"), true);
+        var zip = new AdmZip(path.join("./data/mongodb_data", name));
+        zip.extractAllTo(path.join("./data/mongodb_data"), true);
         downloadProgress.update(100);
 
         downloadProgress.stop();
         console.log("\n");
         func(true, "");
     })
-    .pipe(fs.createWriteStream(path.join("./data/mongodb", name)))
+    .pipe(fs.createWriteStream(path.join("./data/mongodb_data", name)))
 
 }
