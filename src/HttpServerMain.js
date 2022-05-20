@@ -1,12 +1,12 @@
-const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
+const MongodManager = require("./MongodManager.js"); // * MongoDB component.
 
-exports.StartServer = (USER_PORT) => {
+exports.StartServer = (USER_PORT, DATABASE_NAME, CLIENT) => {
 
     app.use(cookieParser());
 
@@ -37,6 +37,17 @@ exports.StartServer = (USER_PORT) => {
         res.send(getFullPage(path.join("./app", contextSpecificFolder, "index.html"), contextSpecificMasterPage));
     })
 
+    app.get('/vault-preview', (req, res) => {
+        res.send(getFullPage(path.join("./app", "preview", "vault.html"), ));
+    })
+
+
+    app.get('/api/*', (req, res) => {
+        res.header('Content-Type', 'application/json');
+
+        res.send('{"error": false, "path": "' + req.url + '"}');
+    })
+
     app.get('*', function(req, res){
         res.status(404).send('Erorr 404: Page not found');
     });
@@ -50,7 +61,7 @@ exports.StartServer = (USER_PORT) => {
 
 function getFullPage(filePath, masterPage){
     let content = fs.readFileSync(path.join("./app", "masterPages", masterPage + ".html")).toString().replace("<!--content-->", fs.readFileSync(filePath).toString());
-    return content;
+    return content.replace(/<!--do-not-include-->.*<!--do-not-include-end-->/, '')
 }
 
     /*

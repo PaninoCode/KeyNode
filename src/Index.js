@@ -26,22 +26,15 @@ if(process.env.RANDOMIZE_USER_PORT == "true"){
     process.env.USER_PORT = port;
 }
 
+MongodManager.CreateClient(process.env.MONGODB_URI, function (success, client) {
+    if(success){
 
-KeyLogger.InfoLog("Searching for MongoDB...");
-
-MongodManager.DownloadAndExtract(process.env.MONGODB_DOWNLOAD, "mongodb.zip", function (res, err) {
-    if (res) {
-        KeyLogger.SuccessLog("MongoDB is downloaded and extracted.");
-        if (HttpServerMain.StartServer(process.env.USER_PORT)) {
+        if (HttpServerMain.StartServer(process.env.USER_PORT, process.env.MONGODB_DATABASE_NAME, client)) {
             KeyLogger.SuccessLog("Server successfully started, on port: " + process.env.USER_PORT);
         }else{
             KeyLogger.ErrorLog("Admin panel failed to start");
         }
     
         open('http://localhost:' + process.env.USER_PORT);
-    } else {
-        KeyLogger.ErrorLog("MongoDB failed to download and extract.");
-        KeuLogger.ErrorLog(err);
     }
-
 });
