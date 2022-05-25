@@ -24,63 +24,90 @@
                   </li>
                 </ul>
                 <div class="row m-2">
-                  <a href="#" class="text-center text-decoration-none text-black">Log-in</a>
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" class="text-center text-decoration-none text-black">Log-in</a>
                 </div>
                 <div class="row m-2">
-                    <button class="btn btn-info fw-bold rounded-pill border-0" data-bs-toggle="modal" data-bs-target="#exampleModal">Start for free</button>
+                    <button class="btn btn-info fw-bold rounded-pill border-0" data-bs-toggle="modal" data-bs-target="#registerModal">Start for free</button>
                 </div>
               </div>
             </div>
           </nav>
 
           <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-              <div class="row">
-                <div class="col-12 col-lg-6">
-                  <div class="modal-content rounded-5 shadow">
-                    <div class="modal-header p-2 pb-4 border-bottom-0 d-flex justify-content-center">
-                      <h3 class="fw-bold mb-0 text-center">
-                        Create an account
-                      </h3>
-                    </div>
-                    <div class="modal-body p-5 pt-0">
-                      <form class="">
-                        <button type="button" class="btn btn-link text-decoration-none" data-bs-dismiss="modal" style="padding-left: 0px;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
-                          </svg>
-                          Back to KeyNode
-                        </button>
-                        <hr>
-                        <div class="form-floating mb-3">
-                          <input type="email" class="form-control rounded-4" id="floatingInput" placeholder="Name">
-                          <label for="floatingInput">Full name</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                          <input type="email" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com">
-                          <label for="floatingInput">Username</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                          <input type="email" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com">
-                          <label for="floatingInput">Email address</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                          <input type="password" class="form-control rounded-4" id="floatingPassword" placeholder="Password">
-                          <label for="floatingPassword">Password</label>
-                        </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Sign up</button>
-                        <small class="text-muted">By clicking Sign up, you agree to the <a href="#">terms of use</a> and <a href="#">privacy policy</a>.</small>
-                        <hr class="my-4">
-                        <p class="mb-3 text-center">Already a member? <a href="#">Login.</a></p>
-                      </form>
-                    </div>
-                  </div>
+          <div class="modal fade" id="registerModal" tabindex="-1">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content rounded-5 shadow">
+                <div class="modal-header p-2 pb-4 border-bottom-0 d-flex justify-content-center">
+                  <h3 class="fw-bold mb-0 text-center">
+                    Create an account
+                  </h3>
                 </div>
-                <div class="d-none d-lg-block col-6">
-                  <div class="modal-content rounded-5 shadow">
-                      eee
-                  </div>
+                <div class="modal-body p-5 pt-0">
+                  <form class="">
+                    <button type="button" class="btn btn-link text-decoration-none" data-bs-dismiss="modal" style="padding-left: 0px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                      </svg>
+                      Back to KeyNode
+                    </button>
+                    <hr>
+                    <div class="form-floating mb-3">
+                      <input type="email" class="form-control rounded-4" id="floatingInput" placeholder="Name">
+                      <label for="floatingInput">Full name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="email" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com">
+                      <label for="floatingInput">Username</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="email" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com">
+                      <label for="floatingInput">Email address</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="password" class="form-control rounded-4" id="floatingPassword" placeholder="Password">
+                      <label for="floatingPassword">Password</label>
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Sign up</button>
+                    <small class="text-muted">By clicking Sign up, you agree to the <a href="#">terms of use</a> and <a href="#">privacy policy</a>.</small>
+                    <hr class="my-4">
+                    <p class="mb-3 text-center">Already a member? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login.</a></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="loginModal" tabindex="-1">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content rounded-5 shadow">
+                <div class="modal-header p-2 pb-4 border-bottom-0 d-flex justify-content-center">
+                  <h3 class="fw-bold mb-0 text-center">
+                    Welcome back
+                  </h3>
+                </div>
+                <div class="modal-body p-5 pt-0">
+                  <form class="">
+                    <button type="button" class="btn btn-link text-decoration-none" data-bs-dismiss="modal" style="padding-left: 0px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                      </svg>
+                      Back to KeyNode
+                    </button>
+                    <hr>
+                    <div class="form-floating mb-3">
+                      <input type="email" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com">
+                      <label for="floatingInput">Username</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="password" class="form-control rounded-4" id="floatingPassword" placeholder="Password">
+                      <label for="floatingPassword">Password</label>
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Log-in</button>
+                    <small class="text-muted">By clicking Log-in, you agree to the <a href="#">terms of use</a> and <a href="#">privacy policy</a>.</small>
+                    <hr class="my-4">
+                    <p class="mb-3 text-center">New to KeyNode? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Create a new account.</a></p>
+                  </form>
                 </div>
               </div>
             </div>

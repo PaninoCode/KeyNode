@@ -35,6 +35,6 @@ MongodManager.CreateClient(process.env.MONGODB_URI, function (success, client) {
             KeyLogger.ErrorLog("Admin panel failed to start");
         }
     
-        open('http://localhost:' + process.env.USER_PORT);
+        open('http://127.0.0.1:' + process.env.USER_PORT);
     }
 });

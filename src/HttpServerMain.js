@@ -4,7 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
-const MongodManager = require("./MongodManager.js"); // * MongoDB component.
+const Api = require("./ApiScripts.js"); // * API component.
 
 exports.StartServer = (USER_PORT, DATABASE_NAME, CLIENT) => {
 
@@ -44,8 +44,13 @@ exports.StartServer = (USER_PORT, DATABASE_NAME, CLIENT) => {
 
     app.get('/api/*', (req, res) => {
         res.header('Content-Type', 'application/json');
-
-        res.send('{"error": false, "path": "' + req.url + '"}');
+        Api.handleRequest(req, res, CLIENT, function (success, data) {
+            if(success){
+                res.send(data);
+            }else{
+                res.send('{"error": true, "path": "' + req.url + '"}');
+            }
+        });
     })
 
     app.get('*', function(req, res){
