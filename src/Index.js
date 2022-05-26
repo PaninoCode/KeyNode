@@ -29,7 +29,7 @@ if(process.env.RANDOMIZE_USER_PORT == "true"){
 MongodManager.CreateClient(process.env.MONGODB_URI, function (success, client) {
     if(success){
 
-        if (HttpServerMain.StartServer(process.env.USER_PORT, process.env.MONGODB_DATABASE_NAME, client)) {
+        if (HttpServerMain.StartServer(process.env.USER_PORT, process.env.MONGODB_DATABASE_NAME, client, process.env.LATENCY)) {
             KeyLogger.SuccessLog("Server successfully started, on port: " + process.env.USER_PORT);
         }else{
             KeyLogger.ErrorLog("Admin panel failed to start");

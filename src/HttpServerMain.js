@@ -2,11 +2,12 @@ const fs = require('fs');
 const path = require('path');
 
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const Api = require("./ApiScripts.js"); // * API component.
 
-exports.StartServer = (USER_PORT, DATABASE_NAME, CLIENT) => {
+exports.StartServer = (USER_PORT, DATABASE_NAME, CLIENT, LATENCY) => {
 
     app.use(cookieParser());
 
@@ -20,7 +21,9 @@ exports.StartServer = (USER_PORT, DATABASE_NAME, CLIENT) => {
           res.set('x-timestamp', Date.now())
         }
       }
-      
+    
+    app.use(bodyParser.json())
+
     app.use(express.static('app', options));
 
 
@@ -33,22 +36,24 @@ exports.StartServer = (USER_PORT, DATABASE_NAME, CLIENT) => {
             contextSpecificMasterPage = "no-user"
 
         }
-
-        res.send(getFullPage(path.join("./app", contextSpecificFolder, "index.html"), contextSpecificMasterPage));
+        simulateLatency(res, getFullPage(path.join("./app", contextSpecificFolder, "index.html"), contextSpecificMasterPage), LATENCY);
+        //res.send(getFullPage(path.join("./app", contextSpecificFolder, "index.html"), contextSpecificMasterPage));
     })
 
     app.get('/vault-preview', (req, res) => {
-        res.send(getFullPage(path.join("./app", "preview", "vault.html"), ));
+        simulateLatency(res, getFullPage(path.join("./app", "preview", "vault.html"), ), LATENCY)
+        //res.send(getFullPage(path.join("./app", "preview", "vault.html"), ));
     })
 
-
-    app.get('/api/*', (req, res) => {
+    app.post('/api/*', (req, res) => {
         res.header('Content-Type', 'application/json');
-        Api.handleRequest(req, res, CLIENT, function (success, data) {
+        Api.handleRequest(req.url, req.body, res, CLIENT, function (success, data) {
             if(success){
-                res.send(data);
+                simulateLatency(res, data, LATENCY);
+                //res.send(data);
             }else{
-                res.send('{"error": true, "path": "' + req.url + '"}');
+                simulateLatency(res, '{"error": true, "path": "' + req.url + '"}', LATENCY)
+                //res.send('{"error": true, "path": "' + req.url + '"}');
             }
         });
     })
@@ -61,6 +66,12 @@ exports.StartServer = (USER_PORT, DATABASE_NAME, CLIENT) => {
 
     return true;
 
+}
+
+function simulateLatency(res, items, latency){
+    setTimeout((() => {
+        res.send(items)
+      }), latency)
 }
 
 
